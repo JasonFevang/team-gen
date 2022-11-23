@@ -1,3 +1,5 @@
+use rand::seq::SliceRandom;
+use rand::thread_rng;
 
 #[derive(Clone, Debug)]
 struct Player {
@@ -34,7 +36,7 @@ impl Team{
 
 fn main() {
     // Create player list
-    let players = vec![
+    let mut players = vec![
         Player{ name: String::from("Jason"), rating: 0.3},
         Player{ name: String::from("Max"), rating: 0.4},
         Player{ name: String::from("Kevin"), rating: -0.4},
@@ -46,11 +48,15 @@ fn main() {
         Player{ name: String::from("Heather"), rating: 0.04},
     ];
 
+    // Randomly shuffle the players
+    let mut rng = thread_rng();
+    players.shuffle(&mut rng);
+
     // Create two teams
     let mut team1: Team = Team::new();
     let mut team2: Team = Team::new();
     for (i, player) in players.iter().enumerate(){
-        if i % 2 == 0 {
+        if i < players.len() / 2{
             team1.players.push(player.clone());
         }
         else{
